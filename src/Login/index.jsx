@@ -74,7 +74,7 @@ export default function Login() {
         <Row className="d-flex justify-content-center">
           <Col md="6" lg="6">
             <Alert className="text-center p-1" variant="success">
-              Login succeful
+              you logged in succefully
             </Alert>
           </Col>
         </Row>
