@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useLocalState } from "../Util/useLocalStorage";
-import  {useFiles} from "../Util/useFile";
+import useFile from "../Util/useFile";
 
 
 export default function AddAnnonce() {
@@ -9,7 +9,7 @@ export default function AddAnnonce() {
       const [jwt, setJwt] = useLocalState("", "token");
       const [showError, setShowError] = useState(false);
       const [showSucess, setShowSucess] = useState(false);
-      const {selectedFiles,base64Files,handleFileChange,} = useFiles();
+      const {selectedFiles,base64Files,handleFileChange,} = useFile();
       
 
 

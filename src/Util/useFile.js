@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function useFiles() {
+export default function useFile() {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [base64Files, setBase64Files] = useState([]);
 
