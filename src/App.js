@@ -6,16 +6,21 @@ import Register from "./Register";
 import SignUp from "./SignUp";
 import ProfilePage from "./UserProfile";
 import AddAnnonce from "./Annonce/addAnnonce";
+import { NavBar } from "./NavBars/Nav";
+import SideBar from "./NavBars/Side"
+import PrivateRoute from "./privateRoute";
+
 
 function App() {
   return (
     <Routes>
-      <Route path="/login" element={<Login></Login>} />
-      <Route path="/register" element={<Register></Register>} />
-      <Route path="/signup" element={<SignUp></SignUp>} />
-      <Route path="/profile" element={<ProfilePage></ProfilePage>} />
-      <Route path="/AddAnnonce" element={<AddAnnonce></AddAnnonce>} />
-    </Routes>
+  <Route path="/login" element={<><NavBar></NavBar><SideBar></SideBar><Login></Login></>} />
+  <Route path="/register" element={<><NavBar></NavBar><SideBar></SideBar><Register></Register></>} />
+  <Route path="/signup" element={<><NavBar></NavBar><SideBar></SideBar><SignUp></SignUp></>} />
+  <Route path="/profile" element={<><NavBar></NavBar><SideBar></SideBar><ProfilePage></ProfilePage></>} />
+  <Route path="/AddAnnonce" element={<PrivateRoute><NavBar></NavBar><SideBar></SideBar><AddAnnonce></AddAnnonce></PrivateRoute>} />
+  </Routes>
+
   );
 }
 
