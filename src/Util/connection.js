@@ -35,7 +35,7 @@ function useConnection() {
     } else {
       setIsValid(false);
     }
-  }, [jwt]); // Make sure to include the dependencies in the dependency array
+  }, [jwt]); 
 
   return isValid;
 }

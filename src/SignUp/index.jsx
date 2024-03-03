@@ -31,7 +31,42 @@ export default function SignUp() {
     filiere: "",
     niveau: "",
     profileImg: "",
+    domains:[]
   });
+
+  const [selectedOptions, setSelectedOptions] = useState([]);
+
+  const handleCheckboxChange = (value) => {
+    const updatedOptions = [...selectedOptions];
+
+    if (updatedOptions.includes(value)) {
+      updatedOptions.splice(updatedOptions.indexOf(value), 1);
+    } else {
+      updatedOptions.push(value);
+    }
+
+    setSelectedOptions(updatedOptions);
+  };
+
+  const checkboxOptions = [
+    "Informatique",
+    "Reseau et Telecom",
+    "Macanique",
+    "Dev Mobile",
+    "Industrie",
+    "Systemes embarques",
+    "Genie Energitique",
+    "Cyber Security",
+    "DataScience et Analytics",
+    "Systeme d'informations",
+    "NetworkSecurity",
+    "Devops",
+    "Buisness Intelligence",
+    "Routing",
+    "Secops",
+    "ERP",
+    "Bloc chain"
+  ];
 
   useEffect(() => {
     // Change the body color when the component mounts
@@ -44,6 +79,7 @@ export default function SignUp() {
       document.body.style.backgroundColor = null;
     };
   }, []);
+
   useEffect(() => {
     if (error) {
       setShowError(true);
@@ -56,6 +92,7 @@ export default function SignUp() {
       return () => clearTimeout(timer);
     }
   }, [error]);
+  
   const EmailValidation = (email) => {
     return String(email)
       .toLowerCase()
@@ -112,11 +149,17 @@ export default function SignUp() {
       if (base64File === "") {
         errors.image = "please choose a profile picture";
       }
+    }else if(step === 4){
+      if(selectedOptions.length < 3){
+        setError ("please select at least 3 tags");
+        errors.fields = "select atleast 3 tags";
+      }
     }
 
     setErrors(errors);
     return Object.keys(errors).length === 0;
   };
+
   const handleNext = () => {
     if (validate()) {
       setStep(step + 1);
@@ -137,6 +180,7 @@ export default function SignUp() {
   };
   const submitchanges = (e) => {
     if (validate()) {
+      user.domains = selectedOptions;
       user.image = base64File;
       const requestOptions = {
         method: "POST",
@@ -168,19 +212,17 @@ export default function SignUp() {
           console.log(typeof err.message);
           setError(err.message);
         });
-    } else {
-      console.log(errors);
-    }
+    } 
   };
   return (
     <div
-      className="d-flex justify-content-center align-items-center"
+      className="d-flex  justify-content-center align-items-center"
       style={{ height: "100vh" }}>
-      <Container className="bg-light p-4 rounded shadow ">
+      <Container className="bg-light p-4 rounded shadow  ">
         <Row className="d-flex justify-content-center mb-4">
           <Col md="8">
             {showProgressBar && (
-              <ProgressBar now={(step / 3) * 100} /*variant="success"*/ />
+              <ProgressBar now={(step / 4) * 100} /*variant="success"*/ />
             )}
           </Col>
         </Row>
@@ -331,24 +373,6 @@ export default function SignUp() {
         )}
         {step === 3 && (
           <>
-            {showError && (
-              <Row className="d-flex justify-content-center">
-                <Col md="6" lg="6">
-                  <Alert className="text-center p-1" variant="danger">
-                    {error}
-                  </Alert>
-                </Col>
-              </Row>
-            )}
-            {showSucess && (
-              <Row className="d-flex justify-content-center">
-                <Col md="6" lg="6">
-                  <Alert className="text-center p-1" variant="success">
-                    Sign up succeful
-                  </Alert>
-                </Col>
-              </Row>
-            )}
             <Row className="d-flex justify-content-center">
               <Col md="4">
                 <Form.Group className="mb-3" controlId="formBranch">
@@ -409,26 +433,81 @@ export default function SignUp() {
             </Row>
           </>
         )}
-        <Row className="d-flex justify-content-center">
-          <Col md="6" lg="8">
-            <div className="d-flex justify-content-between">
-              {step > 1 && (
-                <Button variant="secondary" onClick={handlePrevious}>
-                  Previous
-                </Button>
-              )}
-              {step < 3 ? (
-                <Button variant="primary" onClick={handleNext}>
-                  Next
-                </Button>
-              ) : (
-                <Button variant="success" type="submit" onClick={submitchanges}>
-                  Submit
-                </Button>
-              )}
-            </div>
-          </Col>
-        </Row>
+        
+
+        {step === 4 && (
+          <>
+            {showError && (
+              <Row className="d-flex justify-content-center">
+                <Col md="6" lg="6">
+                  <Alert className="text-center p-1" variant="danger">
+                    {error}
+                  </Alert>
+                </Col>
+              </Row>
+            )}
+            {showSucess && (
+              <Row className="d-flex justify-content-center">
+                <Col md="6" lg="6">
+                  <Alert className="text-center p-1" variant="success">
+                    Sign up succeful
+                  </Alert>
+                </Col>
+              </Row>
+            )}
+                <p className="ml-52 mb-4">Finalize your registration by choosing areas of interest. 
+            This will help us provide you with offers and ads that may interest you.</p>
+            <div className="ml-48 mb-4 flex flex-wrap justify-start">
+                {checkboxOptions.map((option, index) => (
+                  <div key={index} className="flex items-center mb-2" style={{ width: '16?6%' }}>
+                    <input
+                      type="checkbox"
+                      id={`checkbox${index}`}
+                      className="hidden"
+                      checked={selectedOptions.includes(option)}
+                      onChange={() => handleCheckboxChange(option)}
+                    />
+                    <label
+                      htmlFor={`checkbox${index}`}
+                      className={`px-4 py-2 rounded-full cursor-pointer transition duration-300 ${
+                        selectedOptions.includes(option) ? 'bg-blue-500 text-white' : 'bg-gray-300 text-zinc-800'
+                      }`}
+                    >
+                      {option}
+                  </label>
+                </div>
+            ))}
+</div>
+
+        
+        </>
+            )}
+
+
+
+
+
+
+            <Row className="d-flex justify-content-center">
+              <Col md="6" lg="8">
+                <div className="d-flex justify-content-between">
+                  {step > 1 && (
+                    <Button variant="secondary" onClick={handlePrevious}>
+                      Previous
+                    </Button>
+                  )}
+                  {step < 4 ? (
+                    <Button variant="primary" onClick={handleNext}>
+                      Next
+                    </Button>
+                  ) : (
+                    <Button variant="success" type="submit" onClick={submitchanges}>
+                      Submit
+                    </Button>
+                  )}
+                </div>
+              </Col>
+            </Row>
       </Container>
     </div>
   );
