@@ -2,7 +2,7 @@ import React from "react";
  export default function SideBar(){
 
     return(            
-        <aside class="flex absolute flex-col items-center w-16 h-screen py-8 dark:bg-gray-800 border-r rtl:border-l rtl:border-r-0 dark:bg-gray-900 dark:border-gray-700">
+        <aside class="fixed flex flex-col items-center w-16 h-screen py-8 dark:bg-gray-800 border-r rtl:border-l rtl:border-r-0 dark:bg-gray-900 dark:border-gray-700">
             <nav class="flex flex-col flex-1 space-y-10">
         
                 <a href="#" class="p-1.5 text-gray-700 focus:outline-nones transition-colors duration-200 rounded-lg dark:text-gray-200 dark:hover:bg-gray-800 hover:bg-gray-100">

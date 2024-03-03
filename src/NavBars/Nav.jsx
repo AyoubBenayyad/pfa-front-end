@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useConnection } from "../Util/connection";
 import { useLocalState } from "../Util/useLocalStorage";
-import { useEffect,useState } from "react";
-
+import { useEffect,useState } from "react"
 import fetchService from "../Services/fetchService";
 export const NavBar = () => {
 
+
 const connection = useConnection();
+console.log("from nav "+connection);
 
 const navigate =  useNavigate();
 const [jwt,setJwt] = useLocalState("","token");
@@ -47,7 +48,7 @@ return () => {
 
 
   return (
-    <header  className="p-4 dark:bg-gray-900 dark:text-gray-100 sticky top-0 ">
+    <header  className="p-4 dark:bg-gray-900 dark:text-gray-100 sticky z-10 top-0 ">
     <div className="container flex justify-between h-6 mx-auto">
      
       <a rel="noopener noreferrer" href="#" aria-label="Back to homepage" className="flex items-center p-2">
