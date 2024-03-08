@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 import { useConnection } from "../Util/connection";
 import { useLocalState } from "../Util/useLocalStorage";
 import { useEffect,useState } from "react"
@@ -10,42 +10,38 @@ export const NavBar = () => {
 const connection = useConnection();
 console.log("from nav "+connection);
 
-const navigate =  useNavigate();
-const [jwt,setJwt] = useLocalState("","token");
+  const navigate = useNavigate();
+  const [jwt, setJwt] = useLocalState("", "token");
 
-const [imageUrl, setImageUrl] = useState(null);
-useEffect(() => {
-if(connection){
+  const [imageUrl, setImageUrl] = useState(null);
+  useEffect(() => {
+    if (connection) {
+      fetchService("http://localhost:8080/api/v1/profile", jwt, "GET")
+        .then((data) => {
+          const requestOptions = {
+            method: "GET",
+            headers: {
+              "Content-Type": "image/png",
+              Authorization: `Bearer ${jwt}`,
+            },
+          };
 
-  fetchService("http://localhost:8080/api/v1/profile", jwt, "GET")
-  .then((data) => {
-    const requestOptions = {
-      method: "GET",
-      headers: {
-        "Content-Type": "image/png",
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
+          fetch(`http://localhost:8080/images/${data.image}`, requestOptions)
+            .then((response) => response.blob())
+            .then((blob) => {
+              setImageUrl(URL.createObjectURL(blob));
+            })
+            .catch((error) => {
+              console.error("Error fetching image:", error);
+            });
+        })
+        .catch((err) => {
+          //alert(err);
+        });
 
-    fetch(`http://localhost:8080/images/${data.image}`, requestOptions)
-      .then((response) => response.blob())
-      .then((blob) => {
-        setImageUrl(URL.createObjectURL(blob));
-      })
-      .catch((error) => {
-        console.error("Error fetching image:", error);
-      });
-  })
-  .catch((err) => {
-    alert(err);
-  });
-
-return () => {
-};
-}
-  
-}, [connection]);
-
+      return () => {};
+    }
+  }, [connection]);
 
   return (
     <header  className="p-4 dark:bg-gray-900 dark:text-gray-100 sticky z-10 top-0 ">
@@ -73,23 +69,38 @@ return () => {
           </>)
           }
           </div>
-        {!connection && 
-        (<>
-          <button type="button" onClick={()=>{navigate("/signup");}} className="hidden px-6 py-2 font-semibold rounded lg:block dark:bg-violet-400 dark:text-gray-900">Sign up</button>
-          <button type="button" onClick={()=>{navigate("/login");}} className="hidden px-6 py-2 font-semibold rounded lg:block dark:bg-indigo-800 dark:text-gray-300">Log in</button>
-        </>
-          
-        )
-        }
-        {connection && 
-        <a href="/profile">
-        <img class="object-cover w-8 h-8 rounded-full" src={imageUrl} alt="" />
-    </a>
-        }
-        
+          {!connection && (
+            <>
+              <button
+                type="button"
+                onClick={() => {
+                  navigate("/signup");
+                }}
+                className="hidden px-6 py-2 font-semibold rounded lg:block dark:bg-violet-400 dark:text-gray-900">
+                Sign up
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  navigate("/login");
+                }}
+                className="hidden px-6 py-2 font-semibold rounded lg:block dark:bg-indigo-800 dark:text-gray-300">
+                Log in
+              </button>
+            </>
+          )}
+          {connection && (
+            <Link to="/profile">
+              <img
+                className="object-cover w-8 h-8 rounded-full"
+                src={imageUrl}
+                alt=""
+              />
+            </Link>
+          )}
         </div>
-    </div>
-  </header>
+      </div>
+    </header>
   );
 };
 

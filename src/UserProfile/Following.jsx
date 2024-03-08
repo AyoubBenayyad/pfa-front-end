@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Image, Row } from "react-bootstrap";
 import fetchService from "../Services/fetchService";
 
-export default function Follower({ jwt, name, id, image }) {
+export default function Following({ jwt, name, id, image }) {
   const [imageUrl, setImageUrl] = useState(null);
-  const [removed, setRemoved] = useState(false);
+  const [Unfollow, setUnfollow] = useState(false);
   useEffect(() => {
     const requestOptions = {
       method: "GET",
@@ -23,12 +23,8 @@ export default function Follower({ jwt, name, id, image }) {
       });
   }, []);
 
-  const removeFollower = (id) => {
-    fetchService(
-      `http://localhost:8080/api/v1/removeFollower/${id}`,
-      jwt,
-      "POST"
-    )
+  const unfollowUser = (id) => {
+    fetchService(`http://localhost:8080/api/v1/unfollow/${id}`, jwt, "POST")
       .then((data) => {
         console.log(data);
       })
@@ -36,7 +32,19 @@ export default function Follower({ jwt, name, id, image }) {
         console.log(error);
       });
 
-    setRemoved(true);
+    setUnfollow(true);
+  };
+
+  const followUser = (id) => {
+    fetchService(`http://localhost:8080/api/v1/follow/${id}`, jwt, "POST")
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    setUnfollow(false);
   };
   // Follower Component
   return (
@@ -79,13 +87,13 @@ export default function Follower({ jwt, name, id, image }) {
         </Col>
 
         <Col md={4} className="d-flex justify-content-end">
-          {!removed ? (
-            <Button variant="success" onClick={() => removeFollower(id)}>
-              remove
+          {!Unfollow ? (
+            <Button variant="secondary" onClick={() => unfollowUser(id)}>
+              Following
             </Button>
           ) : (
-            <Button variant="danger" disabled>
-              removed
+            <Button variant="primary" onClick={() => followUser(id)}>
+              Follow
             </Button>
           )}
         </Col>
