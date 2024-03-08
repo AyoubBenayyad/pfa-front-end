@@ -30,7 +30,7 @@ function useConnection() {
           setIsValid(isItValid);
         })
         .catch((err) => {
-          alert(err.message);
+          //alert(err.message);
         });
     } else {
       setIsValid(false);

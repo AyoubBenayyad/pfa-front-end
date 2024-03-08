@@ -30,7 +30,11 @@ import EditProfile from "./EditProfile";
 import { useLocalState } from "../Util/useLocalStorage";
 import fetchService from "../Services/fetchService";
 import Followers from "./Followers";
+import { Navigate, useNavigate } from "react-router-dom";
+import Followings from "./Followings";
+import Post from "./Post";
 function ProfilePage() {
+  const navigate = useNavigate();
   const [jwt, setJwt] = useLocalState("", "token");
   const [imageUrl, setImageUrl] = useState(null);
 
@@ -75,13 +79,11 @@ function ProfilePage() {
           .then((response) => response.blob())
           .then((blob) => {
             setImageUrl(URL.createObjectURL(blob));
-          })
-          .catch((error) => {
-            console.error("Error fetching image:", error);
           });
       })
       .catch((err) => {
-        alert(err);
+        navigate("/login");
+        console.log(err);
       });
 
     // Reset the body color when the component unmounts
@@ -118,7 +120,7 @@ function ProfilePage() {
                     <Card.Text
                       className="followersNumber"
                       style={{ color: "#b0b3b8" }}>
-                      {user.followersNumber} followers
+                      {followers.length} followers
                     </Card.Text>
                   </div>
                   <div>
@@ -182,8 +184,7 @@ function ProfilePage() {
               style={{
                 borderRadius: "6px",
               }}>
-              {" "}
-              posts
+              <Post userImageUrl={imageUrl}></Post>
             </Col>
           </Row>
         )}
@@ -245,19 +246,7 @@ function ProfilePage() {
         {activeDiv === "Followers" && (
           <Followers jwt={jwt} handleFollowers={setFollowers} />
         )}
-        {activeDiv === "Following" && (
-          <Row className="d-flex justify-content-center align-items-center mt-2 ">
-            <Col
-              md={10}
-              className="general_info p-5"
-              style={{
-                borderRadius: "6px",
-              }}>
-              {" "}
-              Following
-            </Col>
-          </Row>
-        )}
+        {activeDiv === "Following" && <Followings jwt={jwt} />}
         <Row className="d-flex justify-content-center align-items-center mt-2 ">
           <Col md={10}>
             <EditProfile

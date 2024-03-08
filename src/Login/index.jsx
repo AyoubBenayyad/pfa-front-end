@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useLocalState } from "../Util/useLocalStorage";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -9,6 +10,8 @@ export default function Login() {
   const [jwt, setJwt] = useLocalState("", "token");
   const [showError, setShowError] = useState(false);
   const [showSucess, setShowSucess] = useState(false);
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (error) {
       setShowError(true);
@@ -54,6 +57,8 @@ export default function Login() {
           setShowSucess(true);
           setShowError(false);
           setTimeout(() => setShowSucess(false), 2000);
+          setTimeout(() => navigate("/profile"), 1000);
+          //navigate("/profile");
           console.log(token);
           setJwt(token.token);
         })
