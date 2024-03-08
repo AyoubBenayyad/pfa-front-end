@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useLocalState } from "../Util/useLocalStorage";
+import { NavBar } from "../NavBars/Nav";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -65,6 +66,8 @@ export default function Login() {
     }
   }
   return (
+    <>
+    <NavBar/>
     <Container className="mt-5">
       {showError && (
         <Row className="d-flex justify-content-center">
@@ -122,5 +125,7 @@ export default function Login() {
         </Col>
       </Row>
     </Container>
+    </>
+
   );
 }

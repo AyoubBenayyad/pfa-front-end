@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useLocalState } from "../Util/useLocalStorage";
 import useFile from "../Util/useFile";
-
+import { NavBar } from "../NavBars/Nav";
+import SideBar from "../NavBars/Side"
 
 export default function AddAnnonce() {const [error, setError] = useState("");
 const [jwt, setJwt] = useLocalState("", "token");
@@ -109,6 +110,9 @@ else{
 }
 
   return (
+    <>
+     <NavBar/>
+    <SideBar/>
 <div class=" mx-auto w-auto px-4 py-16 sm:px-6 lg:px-8">
 <div class="mx-auto max-w-3xl">
   <h1 class="text-center text-2xl font-bold text-indigo-600 sm:text-3xl">Create a post</h1>
@@ -256,6 +260,8 @@ else{
   </div>
 </div>
 </div>
+    </>
+   
 
   );
                 }
