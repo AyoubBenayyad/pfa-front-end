@@ -1,5 +1,5 @@
 import { IconButton } from "@material-tailwind/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   MdChevronLeft,
   MdChevronRight,
@@ -8,17 +8,55 @@ import {
 } from "react-icons/md";
 import { FaComment, FaComments } from "react-icons/fa";
 import VoteButtons from "./VoteButtons";
+import { useLocalState } from "../Util/useLocalStorage";
 
-function Post({ userImageUrl }) {
+function Post({
+  userImageUrl,
+  PostId,
+  PostImages,
+  PostDate,
+  PostUsername,
+  PostDomains,
+  PostTitle,
+  PostDescription,
+}) {
   const [currentImage, setCurrentImage] = useState(0);
-  const images = [
-    userImageUrl,
-    "https://img.freepik.com/free-photo/online-message-blog-chat-communication-envelop-graphic-icon-concept_53876-139717.jpg",
-    "https://www.hostinger.com/tutorials/wp-content/uploads/sites/2/2022/03/what-is-a-blog-1.webp",
-    "https://st2.depositphotos.com/1350793/9161/i/450/depositphotos_91612518-stock-photo-blog-concept-with-man-holding.jpg",
-  ];
+
+  const [jwt, setJwt] = useLocalState("", "token");
+
+  const [Images, setImages] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const fetchPromises = PostImages.map(async (imageUrl) => {
+          const requestOptions = {
+            method: "GET",
+            headers: {
+              "Content-Type": "image/png",
+              Authorization: `Bearer ${jwt}`,
+            },
+          };
+          const response = await fetch(
+            `http://localhost:8080/images/${imageUrl}`,
+            requestOptions
+          );
+          const blob = await response.blob();
+          return URL.createObjectURL(blob);
+        });
+
+        const imageUrls = await Promise.all(fetchPromises);
+        setImages(imageUrls);
+      } catch (error) {
+        console.error("Error fetching images:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const handleNextImage = () => {
-    setCurrentImage((prevImage) => (prevImage + 1) % images.length);
+    setCurrentImage((prevImage) => (prevImage + 1) % Images.length);
   };
 
   const handleButtonClick = (position) => {
@@ -40,24 +78,16 @@ function Post({ userImageUrl }) {
               alt=""
             />
             <div className="-space-y-1">
-              <h2 className="text-sm font-semibold">Ayoub Benayyad</h2>
+              <h2 className="text-sm font-semibold">{PostUsername}</h2>
               <span className="inline-block text-xs dark:text-gray-400">
-                <time dateTime="2022-10-10">10th Oct 2022</time>
+                <time dateTime="2022-10-10">{PostDate}</time>
               </span>
             </div>
           </div>
-          <button title="Open options" type="button">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 512 512"
-              className="w-5 h-5 fill-current">
-              {/* Add your SVG path data here */}
-            </svg>
-          </button>
         </div>
         <img
           alt=""
-          src={images[currentImage]}
+          src={Images[currentImage]}
           style={{
             width: "100%", // Make the image responsive
             height: "auto",
@@ -65,9 +95,9 @@ function Post({ userImageUrl }) {
             objectFit: "cover", // Cover the container
           }}
         />
-        {images.length > 1 && (
+        {Images.length > 1 && (
           <div className="mt-3 flex flex-row justify-center space-x-4">
-            {images.map((item, index) => (
+            {Images.map((item, index) => (
               <button
                 className="bg-gray-200 h-4 w-4 rounded-full hover:bg-gray-400"
                 key={index}
@@ -78,23 +108,18 @@ function Post({ userImageUrl }) {
           </div>
         )}
         <div className="p-4 pt-1 sm:p-6 pb-2">
-          <div className="mt-4 flex flex-wrap gap-1">
-            <span className="whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-xs text-purple-600 dark:bg-purple-600 dark:text-purple-100">
-              Snippet
-            </span>
-            <span className="whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-xs text-purple-600 dark:bg-purple-600 dark:text-purple-100">
-              JavaScript
-            </span>
+          <div className="mt-4  mb-3 flex flex-wrap gap-1">
+            {PostDomains.map((post) => (
+              <span className="whitespace-nowrap rounded-full  bg-purple-100 px-2.5 py-0.5 text-xs text-purple-600 dark:bg-purple-600 dark:text-purple-100">
+                {post}
+              </span>
+            ))}
           </div>
-          <h3 className="mt-0.5 text-lg font-medium text-gray-900 dark:text-white">
-            How to position your furniture for positivity
+          <h3 className="mt- text-lg font-medium text-gray-900 dark:text-white">
+            {PostTitle}{" "}
           </h3>
           <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500 dark:text-gray-400">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae
-            dolores, possimus pariatur animi temporibus nesciunt praesentium
-            dolore sed nulla ipsum eveniet corporis quidem, mollitia itaque
-            minus soluta, voluptates neque explicabo tempora nisi culpa eius
-            atque dignissimos. Molestias explicabo corporis voluptatem?
+            {PostDescription}
           </p>
         </div>
         <div className="pb-4 flex items-center justify-around pt-3 border-t-2 border-gray-500">

@@ -35,6 +35,8 @@ import Followers from "./Followers";
 import { Navigate, useNavigate } from "react-router-dom";
 import Followings from "./Followings";
 import Post from "./Post";
+import Posts from "./ProfilePosts";
+import ProfilePosts from "./ProfilePosts";
 function ProfilePage() {
   const navigate = useNavigate();
   const [jwt, setJwt] = useLocalState("", "token");
@@ -188,7 +190,7 @@ function ProfilePage() {
               style={{
                 borderRadius: "6px",
               }}>
-              <Post userImageUrl={imageUrl}></Post>
+              <ProfilePosts profileImg={imageUrl}></ProfilePosts>
             </Col>
           </Row>
         )}
