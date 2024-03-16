@@ -5,7 +5,8 @@ import useFile from "../Util/useFile";
 import { NavBar } from "../NavBars/Nav";
 import SideBar from "../NavBars/Side"
 
-export default function AddAnnonce() {const [error, setError] = useState("");
+export default function AddAnnonce() {
+const [error, setError] = useState("");
 const [jwt, setJwt] = useLocalState("", "token");
 const [showError, setShowError] = useState(false);
 const [showSucess, setShowSucess] = useState(false);

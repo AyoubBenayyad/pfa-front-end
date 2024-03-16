@@ -59,13 +59,9 @@ export default function Login() {
           setShowError(false);
           setTimeout(() => setShowSucess(false), 2000);
           setTimeout(() => navigate("/profile"), 1000);
-          //navigate("/profile");
-          console.log(token);
           setJwt(token.token);
         })
         .catch((err) => {
-          console.log(typeof err);
-          console.log(typeof err.message);
           setError(err.message);
         });
     }

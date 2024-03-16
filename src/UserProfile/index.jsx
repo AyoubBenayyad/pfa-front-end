@@ -42,6 +42,7 @@ function ProfilePage() {
   const [jwt, setJwt] = useLocalState("", "token");
   const [imageUrl, setImageUrl] = useState(null);
 
+  const [imageUrl2, setImageUrl2] = useState(null);
   const [activeDiv, setActiveDiv] = useState("Posts");
   const [showModal, setShowModal] = useState(false);
 
@@ -70,7 +71,7 @@ function ProfilePage() {
     fetchService("http://localhost:8080/api/v1/profile", jwt, "GET")
       .then((data) => {
         setUser(data);
-        console.log(data);
+        setImageUrl2(data.image);
         const requestOptions = {
           method: "GET",
           headers: {
@@ -190,7 +191,7 @@ function ProfilePage() {
               style={{
                 borderRadius: "6px",
               }}>
-              <ProfilePosts profileImg={imageUrl}></ProfilePosts>
+              <ProfilePosts profileImg={imageUrl2}></ProfilePosts>
             </Col>
           </Row>
         )}

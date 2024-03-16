@@ -15,7 +15,6 @@ export default function ProfilePosts({ profileImg }) {
     )
       .then((data) => {
         setPosts(data);
-        console.log(data);
       })
       .catch((err) => {
         alert(err);
