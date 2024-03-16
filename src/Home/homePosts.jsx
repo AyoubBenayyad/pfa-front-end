@@ -16,7 +16,7 @@ export default function HomePosts({ posts },{load}) {
             PostId={post.id}
             PostImages={post.photos}
             PostDate={post.publicationDate}
-            PostUsername={post.userInfos.fullName}
+            PostUsername={post.userInfos.fullName ? post.userInfos.fullName : "" }
             userImageUrl={post.userInfos.image}
             PostDomains={post.domains}
             PostTitle={post.title}
