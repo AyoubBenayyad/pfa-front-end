@@ -1,38 +1,122 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLocalState } from "../Util/useLocalStorage";
+import fetchService from "../Services/fetchService";
 
-export default function VoteButtons() {
+export default function VoteButtons({ PostId }) {
   const [userVote, setUserVote] = useState(null);
   const [voteCount, setVoteCount] = useState(0);
+  const [jwt, setJwt] = useLocalState("", "token");
 
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        fetchService(
+          `http://localhost:8080/api/v1/Vote/${PostId}/isVoted`,
+          jwt,
+          "GET"
+        ).then((data) => {
+          console.log(data.type);
+          if (data.type === "NoVote") setUserVote(null);
+          if (data.type === "UpVote") setUserVote("UpVote");
+          if (data.type === "DownVote") setUserVote("DownVote");
+
+          setVoteCount(data.mark);
+        });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    fetchData();
+  }, []);
   const handleUpVote = () => {
     if (userVote === "UpVote") {
-      setUserVote(null);
-      let newVoteCount = voteCount - 1;
-      setVoteCount(newVoteCount);
+      fetchService(
+        `http://localhost:8080/api/v1/Vote/${PostId}/RemoveUpVote`,
+        jwt,
+        "POST"
+      )
+        .then((data) => {
+          setUserVote(null);
+          let newVoteCount = voteCount - 1;
+          setVoteCount(newVoteCount);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else if (userVote === "DownVote") {
-      setUserVote("UpVote");
-      let newVoteCount = voteCount + 2;
-      setVoteCount(newVoteCount);
+      fetchService(
+        `http://localhost:8080/api/v1/Vote/${PostId}/UpVote`,
+        jwt,
+        "POST"
+      )
+        .then((data) => {
+          setUserVote("UpVote");
+          let newVoteCount = voteCount + 2;
+          setVoteCount(newVoteCount);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
-      setUserVote("UpVote");
-      let newVoteCount = voteCount + 1;
-      setVoteCount(newVoteCount);
+      fetchService(
+        `http://localhost:8080/api/v1/Vote/${PostId}/UpVote`,
+        jwt,
+        "POST"
+      )
+        .then((data) => {
+          setUserVote("UpVote");
+          let newVoteCount = voteCount + 1;
+          setVoteCount(newVoteCount);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 
   const handleDownVote = () => {
     if (userVote === "DownVote") {
-      setUserVote(null);
-      let newVoteCount = voteCount + 1;
-      setVoteCount(newVoteCount);
+      fetchService(
+        `http://localhost:8080/api/v1/Vote/${PostId}/RemoveDownVote`,
+        jwt,
+        "POST"
+      )
+        .then((data) => {
+          setUserVote(null);
+          let newVoteCount = voteCount + 1;
+          setVoteCount(newVoteCount);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else if (userVote === "UpVote") {
-      setUserVote("DownVote");
-      let newVoteCount = voteCount - 2;
-      setVoteCount(newVoteCount);
+      fetchService(
+        `http://localhost:8080/api/v1/Vote/${PostId}/DownVote`,
+        jwt,
+        "POST"
+      )
+        .then((data) => {
+          setUserVote("DownVote");
+          let newVoteCount = voteCount - 2;
+          setVoteCount(newVoteCount);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
-      setUserVote("DownVote");
-      let newVoteCount = voteCount - 1;
-      setVoteCount(newVoteCount);
+      fetchService(
+        `http://localhost:8080/api/v1/Vote/${PostId}/DownVote`,
+        jwt,
+        "POST"
+      )
+        .then((data) => {
+          setUserVote("DownVote");
+          let newVoteCount = voteCount - 1;
+          setVoteCount(newVoteCount);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
   return (

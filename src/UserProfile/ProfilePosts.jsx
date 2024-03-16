@@ -22,20 +22,6 @@ export default function ProfilePosts({ profileImg }) {
       });
   }, []);
 
-  const images = [
-    "https://img.freepik.com/free-photo/online-message-blog-chat-communication-envelop-graphic-icon-concept_53876-139717.jpg",
-    "https://img.freepik.com/free-photo/online-message-blog-chat-communication-envelop-graphic-icon-concept_53876-139717.jpg",
-    "https://www.hostinger.com/tutorials/wp-content/uploads/sites/2/2022/03/what-is-a-blog-1.webp",
-    "https://st2.depositphotos.com/1350793/9161/i/450/depositphotos_91612518-stock-photo-blog-concept-with-man-holding.jpg",
-  ];
-  const domains = [
-    "JavaScript",
-    "React",
-    "Software Enginnering",
-    "JavaScript",
-    "React",
-    "Software Enginnering",
-  ];
   return (
     <div className="flex flex-col gap-4">
       {Post.length === 0 ? (

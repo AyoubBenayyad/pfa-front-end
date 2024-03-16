@@ -123,7 +123,7 @@ function Post({
           </p>
         </div>
         <div className="pb-4 flex items-center justify-around pt-3 border-t-2 border-gray-500">
-          <VoteButtons></VoteButtons>
+          <VoteButtons PostId={PostId}></VoteButtons>
           <div>
             <button
               className="hover:bg-gray-400  rounded p-2"
