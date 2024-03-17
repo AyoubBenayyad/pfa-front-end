@@ -1,10 +1,11 @@
 import { NavBar } from "../NavBars/Nav";
 import SideBar from "../NavBars/Side"
-import React,{useState,useEffect} from "react";
+import React,{useState,useEffect,useRef} from "react";
 import { Alert,  Col, Row,Button } from "react-bootstrap";
 import { useLocalState } from "../Util/useLocalStorage";
 import fetchService from "../Services/fetchService";
-import HomePosts from "./homePosts";
+import Post from "../UserProfile/Post";
+
 export default function Hpage(){
     const [jwt,setJwt] = useLocalState("","token");
     const [error, setError] = useState("");
@@ -15,8 +16,13 @@ export default function Hpage(){
         description:""
     });
     const [profils,setProfils] = useState([]);
-    const [loading, setLoading] = useState(false);
+    //posts:
+    const firstUpdate = useRef(true);
+    const [hasMore, setHasMore] = useState(true);
     const [page, setPage] = useState(0);
+    const [posts,setPosts] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    
     const [follow, setfollow] = useState(false);
 
     //follow logic:
@@ -38,70 +44,87 @@ export default function Hpage(){
       date:""
   });
   
-  const [posts,setPosts] = useState([]);
 
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const requestOptions = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${jwt}`,
-        },
-        body: JSON.stringify({
-          domain : filter.domain,
-          city: filter.city,
-          type: filter.type,
-          date: filter.date,
-          page:page
-        }),
-      };
-
-      const response = await fetch("http://localhost:8080/api/v1/filter", requestOptions);
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText);
-      }
-
-      const data = await response.json();
-      if(page === 0){
-        setPosts(data);
-      }else{
-        setPosts(prevPosts => [...prevPosts, data]);
-      }
-      setPage(prevPage => prevPage + 1);
-    } catch (error) {
-
+  //first fetch and when filter changes
+  useEffect(()=>{
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
     }
-    setLoading(false);
-  };
-  
-  useEffect(() => {
     fetchData();
-  }, [filter]);
+   },[filter])
+   
 
-  /*
-  useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop !==
-          document.documentElement.offsetHeight ||
-        loading
-      ) {
-        return;
-      }
-      fetchData();
+//fetching data by page function:
+const fetchData = async () => {
+if(hasMore){
+  if (isLoading) return;
+
+  setIsLoading(true);
+
+  try {
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+      body: JSON.stringify({
+        domain: filter.domain,
+        city: filter.city,
+        type: filter.type,
+        date: filter.date,
+        page: page
+      }),
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [loading]);
-*/
+    const response = await fetch("http://localhost:8080/api/v1/filter", requestOptions);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText);
+    }
+
+    const data = await response.json();
+    
+      if (page === 0) {
+        setPosts(data);
+      } else {
+        setPosts(prevPosts => [...prevPosts, ...data]);
+      }
+      if (data.length === 0) {
+      setHasMore(false);
+    }
+  } catch (error) {
+  }
+  setPage(prevIndex => prevIndex + 1);
+  setIsLoading(false);
+}
+};
+
   
+ 
+
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const { scrollTop, clientHeight, scrollHeight } =
+        document.documentElement;
+      if (scrollTop + clientHeight >= scrollHeight && posts.length > 0) {
+        fetchData();
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [fetchData]);
+
+
     const filterChange = (e) => {
       setPage(0);
+      setHasMore(true);
       setFilter({
         ...filter,
         [e.target.name]: e.target.value,
@@ -308,14 +331,37 @@ export default function Hpage(){
     
 
 
-
-
+  
 
 
 
     <div className=" flex-1 flex flex-col  w-2/4 ml-44 mt-8">
-      <HomePosts posts={posts} load={loading}></HomePosts>
-    </div>
+              <div className="flex flex-col gap-4">
+                {posts.length > 0  ? (
+                  posts.map((post,index) => (
+                    
+                    <Post
+                      key={post.id}
+                      PostId={post.id}
+                      PostImages={post.photos}
+                      PostDate={post.publicationDate}
+                      PostUsername={post.userInfos.fullName ? post.userInfos.fullName : " " }
+                      userImageUrl={post.userInfos.image}
+                      PostDomains={post.domains}
+                      PostTitle={post.title}
+                      PostDescription={post.description}>
+                      </Post> 
+                    
+                  ))
+                ) :  (
+                  <>no posts available</>
+                )}
+                
+              </div>
+              {isLoading && <div>Loading....</div>}
+        </div>
+
+
     <div className="fixed mt-8  right-8 top-32 rounded  w-1/3  ">
         <div className="shadow-md  rounded">
                         <div className="mt-0 bg-gray-300 h-10 pl-4 pt-2 text-sky-700 text-l rounded-sm ">
