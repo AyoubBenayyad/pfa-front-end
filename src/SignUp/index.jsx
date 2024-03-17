@@ -9,6 +9,7 @@ import {
   Row,
 } from "react-bootstrap";
 import useFileHandler from "../Util/useFileHandler";
+import { NavBar } from "../NavBars/Nav";
 
 export default function SignUp() {
   const { selectedFile, base64File, handleFileChange } = useFileHandler();
@@ -215,6 +216,9 @@ export default function SignUp() {
     } 
   };
   return (
+
+    <>
+    <NavBar/>
     <div
       className="d-flex  justify-content-center align-items-center"
       style={{ height: "100vh" }}>
@@ -510,5 +514,7 @@ export default function SignUp() {
             </Row>
       </Container>
     </div>
+    </>
+
   );
 }

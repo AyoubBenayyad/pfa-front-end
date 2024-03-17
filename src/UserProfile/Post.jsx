@@ -25,6 +25,9 @@ function Post({
   const [jwt, setJwt] = useLocalState("", "token");
 
   const [Images, setImages] = useState([]);
+  const[userImage,setUserImage] = useState(null);
+
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,6 +56,23 @@ function Post({
     };
 
     fetchData();
+    //fetch user image:
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "image/png",
+        Authorization: `Bearer ${jwt}`,
+      },
+    };
+    
+    fetch(`http://localhost:8080/images/${userImageUrl}`, requestOptions)
+            .then((response) => response.blob())
+            .then((blob) => {
+              setUserImage(URL.createObjectURL(blob));
+            })
+            .catch((error) => {
+              console.error("Error fetching image:", error);
+            });
   }, []);
 
   const handleNextImage = () => {
@@ -74,11 +94,11 @@ function Post({
           <div className="flex items-center space-x-2">
             <img
               className="object-cover w-12 h-12 rounded-full"
-              src={userImageUrl}
+              src={userImage}
               alt=""
             />
             <div className="-space-y-1">
-              <h2 className="text-sm font-semibold">{PostUsername}</h2>
+              <h2 className="text-sm font-semibold text-white">{PostUsername}</h2>
               <span className="inline-block text-xs dark:text-gray-400">
                 <time dateTime="2022-10-10">{PostDate}</time>
               </span>
@@ -109,8 +129,8 @@ function Post({
         )}
         <div className="p-4 pt-1 sm:p-6 pb-2">
           <div className="mt-4  mb-3 flex flex-wrap gap-1">
-            {PostDomains.map((post) => (
-              <span className="whitespace-nowrap rounded-full  bg-purple-100 px-2.5 py-0.5 text-xs text-purple-600 dark:bg-purple-600 dark:text-purple-100">
+            {PostDomains.map((post,index) => (
+              <span key={index} className="whitespace-nowrap rounded-full  bg-purple-100 px-2.5 py-0.5 text-xs text-purple-600 dark:bg-purple-600 dark:text-purple-100">
                 {post}
               </span>
             ))}
@@ -128,12 +148,13 @@ function Post({
             <button
               className="hover:bg-gray-400  rounded p-2"
               style={{
+                color:"white",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 fontSize: "24px",
               }}>
-              <MdComment style={{ marginRight: "8px" }} />
+              <MdComment style={{ marginRight: "8px", color:"white", }} />
               comments
             </button>
           </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useLocalState } from "../Util/useLocalStorage";
 import { useNavigate } from "react-router-dom";
+import { NavBar } from "../NavBars/Nav";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -58,18 +59,16 @@ export default function Login() {
           setShowError(false);
           setTimeout(() => setShowSucess(false), 2000);
           setTimeout(() => navigate("/profile"), 1000);
-          //navigate("/profile");
-          console.log(token);
           setJwt(token.token);
         })
         .catch((err) => {
-          console.log(typeof err);
-          console.log(typeof err.message);
           setError(err.message);
         });
     }
   }
   return (
+    <>
+    <NavBar/>
     <Container className="mt-5">
       {showError && (
         <Row className="d-flex justify-content-center">
@@ -127,5 +126,7 @@ export default function Login() {
         </Col>
       </Row>
     </Container>
+    </>
+
   );
 }
