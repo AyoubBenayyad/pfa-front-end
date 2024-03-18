@@ -24,17 +24,35 @@ export default function Hpage(){
     const [isLoading, setIsLoading] = useState(false);
     
     const [follow, setfollow] = useState(false);
-
+    const [loadingFollow,setLoadingFollow] = useState(false);
     //follow logic:
+    async function followRequest(id) {
+      try {
+        const response = await fetch(`http://localhost:8080/api/v1/follow/${id}`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${jwt}`,
+            'Content-Type': 'application/json'
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        setTimeout(() => {
+          setLoadingFollow(false);
+          setfollow(!follow);
+        }, 1500);
+      } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+      }
+    }
+
   
     const followUser = (id) => {
-      fetchService(`http://localhost:8080/api/v1/follow/${id}`, jwt, "POST")
-        .then((data) => {
-        })
-        .catch((error) => {
-        });
-  setfollow(!follow);
+      
+  setLoadingFollow(true);
   setProfils([]);
+  followRequest(id);
     };
     //filter logic--------------------------------------------------------------------------------------
     const [filter,setFilter] = useState({
@@ -45,7 +63,7 @@ export default function Hpage(){
   });
   
 
-  //first fetch and when filter changes
+  //fetch only when filter changes
   useEffect(()=>{
     if (firstUpdate.current) {
       firstUpdate.current = false;
@@ -110,7 +128,7 @@ if(hasMore){
     const handleScroll = () => {
       const { scrollTop, clientHeight, scrollHeight } =
         document.documentElement;
-      if (scrollTop + clientHeight >= scrollHeight && posts.length > 0) {
+      if (scrollTop + clientHeight >= scrollHeight -20 && posts.length > 0) {
         fetchData();
       }
     };
@@ -422,7 +440,7 @@ if(hasMore){
                     
                     <div className="bg-white px-2 pt-2 pb-2 rounded">
 
-                    {profils.map((profil, index) => (
+                    {!loadingFollow && profils.map((profil, index) => (
                             <div className="flex items-center ml-4" key={profil.id}>
                                 <img
                                 alt=""
@@ -442,6 +460,35 @@ if(hasMore){
                                 </div>
                             </div>
                         ))}
+                        {loadingFollow && (<>
+                        <div class="py-2 rounded shadow-md   animate-pulse dark:bg-white">
+                                <div class="flex p-1 space-x-4 max-h-9">
+                                  <div class="flex-shrink-0 w-8 h-8 rounded-full dark:bg-gray-300"></div>
+                                        <div class="flex-1 py-2 space-y-1">
+                                          <div class="w-32 h-2 rounded dark:bg-gray-300"></div>
+                                          <div class="w-44 h-2 rounded dark:bg-gray-300"></div>
+                                        </div>
+                                </div>
+                              </div>
+                              <div class="py-2 rounded shadow-md   animate-pulse dark:bg-white">
+                                <div class="flex p-1 space-x-4 max-h-9">
+                                  <div class="flex-shrink-0 w-8 h-8 rounded-full dark:bg-gray-300"></div>
+                                    <div class="flex-1 py-2 space-y-1">
+                                      <div class="w-32 h-2 rounded dark:bg-gray-300"></div>
+                                      <div class="w-44 h-2 rounded dark:bg-gray-300"></div>
+                                    </div>
+                                </div>
+                              </div>
+                            <div class="py-2 rounded shadow-md   animate-pulse dark:bg-white">
+                                <div class="flex p-1 space-x-4 max-h-9">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full dark:bg-gray-300"></div>
+                                  <div class="flex-1 py-2 space-y-1">
+                                    <div class="w-32 h-2 rounded dark:bg-gray-300"></div>
+                                    <div class="w-44 h-2 rounded dark:bg-gray-300"></div>
+                                  </div>
+                              </div>
+                          </div>
+                        </>)}
                     </div>
             </div>
 
