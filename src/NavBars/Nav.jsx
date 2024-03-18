@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import {  useNavigate } from "react-router-dom";
 import { useConnection } from "../Util/connection";
 import { useLocalState } from "../Util/useLocalStorage";
 import { useEffect,useState } from "react"
@@ -20,6 +20,11 @@ const [searchedUsers,setSearchedUsers] = useState([]);
 
   const closeDropdown = () => {
     setIsOpen(false);
+  };
+
+  const signout = ()=>{
+    localStorage.removeItem("token");
+      navigate("/login");
   };
 
 const connection = useConnection();
@@ -312,51 +317,50 @@ const connection = useConnection();
                               onClick={closeDropdown}
                               className="absolute right-0 z-20 w-56 py-2 mt-2 overflow-hidden origin-top-right bg-white rounded-md shadow-xl dark:bg-gray-800"
                             >
-                              <a
-                                href="/profile"
-                                className="flex items-center px-3 py-2 -mt-2 text-sm text-stone-950 transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 "
+                              <div
+                                className="flex items-center px-3 py-1 -mt-2 text-sm  transition-colors duration-300 transform  dark:hover:text-white dark:hover:bg-gray-700 "
                               >
-                                <div className="mx-1">
-                                  <h1 className="text-sm font-semibold text-stone-950 dark:text-black dark:hover:text-white">
-                                    Adam Houlihal
+                                <div className="mx-1  dark:hover:text-white">
+                                  <h1 className="text-sm font-semibold  dark:text-black ">
+                                    User Name
                                   </h1>
-                                  <p className="text-sm  dark:text-black dark:hover:text-white">
-                                    janedoe@example.com
+                                  <p className="text-sm  dark:text-black ">
+                                    user@example.com
                                   </p>
                                 </div>
-                              </a>
+                              </div>
                     
-                              <hr className="border-gray-200 dark:border-gray-700 " />
+                              <hr className="border-gray-200 dark:border-gray-700  p-0" />
                     
-                              <a
-                                href="#"
-                                className="block px-4 py-2 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-slate-950 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
+                              <div
+                              onClick={()=>{
+                                navigate("/profile")
+                              }}
+                                className="block px-4 py-1 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-slate-950 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
                               >
-                                View Profile
-                              </a>
+                                <span>View Profile</span>
+                              </div>
                     
-                              <a
-                                href="#"
-                                className="block px-4 py-2 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-slate-950 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
+                              <div
+                                className="block px-4 py-1 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-slate-950 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
                               >
                                 Settings
-                              </a>
+                              </div>
                               
-                              <hr className="border-gray-200 dark:border-gray-700 " />
+                              <hr className="border-gray-200 dark:border-gray-700 p-0 " />
                     
-                              <a
-                                href="#"
-                                className="block px-4 py-2 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-slate-950 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
+                              <div
+                                className="block px-4 py-1 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-slate-950 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
                               >
                                 Help
-                              </a>
+                              </div>
                               
-                              <a
-                                href="#"
-                                className="block px-4 py-2 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-slate-950 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
+                              <div
+                              onClick={signout}
+                                className="block px-4 py-1 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-slate-950 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
                               >
                                 Sign Out
-                              </a>
+                              </div>
                         </div>
                )}
              </div>
