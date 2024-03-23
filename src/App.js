@@ -8,6 +8,8 @@ import AddAnnonce from "./Annonce/addAnnonce";
 import PrivateRoute from "./privateRoute";
 import CommentSection from "./UserProfile/CommentSection";
 import UserContextProvider from "./context/UserContextProvider";
+import { NavBar } from "./NavBars/Nav";
+import SideBar from "./NavBars/Side";
 
 function App() {
   return (
@@ -29,7 +31,7 @@ function App() {
             <>
               <NavBar></NavBar>
               <SideBar></SideBar>
-              <Register></Register>
+              <SignUp></SignUp>
             </>
           }
         />
