@@ -10,6 +10,7 @@ import CommentSection from "./UserProfile/CommentSection";
 import UserContextProvider from "./context/UserContextProvider";
 import { NavBar } from "./NavBars/Nav";
 import SideBar from "./NavBars/Side";
+import Hpage from "./Home/homePage";
 
 function App() {
   return (
@@ -19,19 +20,7 @@ function App() {
           path="/login"
           element={
             <>
-              <NavBar></NavBar>
-              <SideBar></SideBar>
               <Login></Login>
-            </>
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            <>
-              <NavBar></NavBar>
-              <SideBar></SideBar>
-              <SignUp></SignUp>
             </>
           }
         />
@@ -39,8 +28,6 @@ function App() {
           path="/signup"
           element={
             <>
-              <NavBar></NavBar>
-              <SideBar></SideBar>
               <SignUp></SignUp>
             </>
           }
@@ -49,8 +36,6 @@ function App() {
           path="/profile"
           element={
             <PrivateRoute>
-              <NavBar></NavBar>
-              <SideBar></SideBar>
               <ProfilePage></ProfilePage>
             </PrivateRoute>
           }
@@ -59,9 +44,15 @@ function App() {
           path="/AddAnnonce"
           element={
             <PrivateRoute>
-              <NavBar></NavBar>
-              <SideBar></SideBar>
               <AddAnnonce></AddAnnonce>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/home"
+          element={
+            <PrivateRoute>
+              <Hpage></Hpage>
             </PrivateRoute>
           }
         />
