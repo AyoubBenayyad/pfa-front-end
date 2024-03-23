@@ -10,7 +10,6 @@ const [isValid,setIsValid] = useState(null);
     const connection = useConnection();
     useEffect(()=>{
       if(connection!== null){
-        console.log("prv route: "+ connection);
         setIsValid(connection);
         setIsLoading(false);
       }

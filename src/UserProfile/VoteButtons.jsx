@@ -133,7 +133,7 @@ export default function VoteButtons({ PostId }) {
           className={`h-6 w-6 ${userVote === "UpVote" ? "text-green-500" : ""}`}
           fill="none"
           viewBox="0 0 24 24"
-          stroke="currentColor">
+          stroke="white">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -142,7 +142,7 @@ export default function VoteButtons({ PostId }) {
           />
         </svg>
       </button>
-      <span className="text-2xl font-bold">{voteCount}</span>
+      <span className="text-2xl text-white font-bold">{voteCount}</span>
       <button
         className={
           userVote === "DownVote"
@@ -157,7 +157,7 @@ export default function VoteButtons({ PostId }) {
           }`}
           fill="none"
           viewBox="0 0 24 24"
-          stroke="currentColor">
+          stroke="white">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
