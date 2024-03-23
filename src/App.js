@@ -9,19 +9,65 @@ import AddAnnonce from "./Annonce/addAnnonce";
 import { NavBar } from "./NavBars/Nav";
 import SideBar from "./NavBars/Side"
 import PrivateRoute from "./privateRoute";
+import CommentSection from "./UserProfile/CommentSection";
+import UserContextProvider from "./context/UserContextProvider";
 
 function App() {
-
-
   return (
-    <Routes>
-  <Route path="/login" element={<><NavBar></NavBar><SideBar></SideBar><Login></Login></>} />
-  <Route path="/register" element={<><NavBar></NavBar><SideBar></SideBar><Register></Register></>} />
-  <Route path="/signup" element={<><NavBar></NavBar><SideBar></SideBar><SignUp></SignUp></>} />
-  <Route path="/profile" element={<PrivateRoute><NavBar></NavBar><SideBar></SideBar><ProfilePage></ProfilePage></PrivateRoute>} />
-  <Route path="/AddAnnonce" element={<PrivateRoute><NavBar></NavBar><SideBar></SideBar><AddAnnonce></AddAnnonce></PrivateRoute>} />
-  </Routes>
-
+    <UserContextProvider>
+      <Routes>
+        <Route
+          path="/login"
+          element={
+            <>
+              <NavBar></NavBar>
+              <SideBar></SideBar>
+              <Login></Login>
+            </>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <>
+              <NavBar></NavBar>
+              <SideBar></SideBar>
+              <Register></Register>
+            </>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <>
+              <NavBar></NavBar>
+              <SideBar></SideBar>
+              <SignUp></SignUp>
+            </>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <NavBar></NavBar>
+              <SideBar></SideBar>
+              <ProfilePage></ProfilePage>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/AddAnnonce"
+          element={
+            <PrivateRoute>
+              <NavBar></NavBar>
+              <SideBar></SideBar>
+              <AddAnnonce></AddAnnonce>
+            </PrivateRoute>
+          }
+        />
+      </Routes>
+    </UserContextProvider>
   );
 }
 
