@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useLocalState } from "../Util/useLocalStorage";
 import { useNavigate } from "react-router-dom";
+import UserContext from "../context/UserContext";
 import { NavBar } from "../NavBars/Nav";
 
 export default function Login() {
@@ -11,8 +12,12 @@ export default function Login() {
   const [jwt, setJwt] = useLocalState("", "token");
   const [showError, setShowError] = useState(false);
   const [showSucess, setShowSucess] = useState(false);
+  const { setContextJwt } = useContext(UserContext);
   const navigate = useNavigate();
-
+  useEffect(() => {
+    console.log("jwt use effect" + jwt);
+    setContextJwt(jwt);
+  }, [jwt]);
   useEffect(() => {
     if (error) {
       setShowError(true);
@@ -57,6 +62,7 @@ export default function Login() {
         .then((token) => {
           setShowSucess(true);
           setShowError(false);
+
           setTimeout(() => setShowSucess(false), 2000);
           setTimeout(() => navigate("/home"), 1000);
           setJwt(token.token);

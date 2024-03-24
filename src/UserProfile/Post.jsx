@@ -9,6 +9,7 @@ import {
 import { FaComment, FaComments } from "react-icons/fa";
 import VoteButtons from "./VoteButtons";
 import { useLocalState } from "../Util/useLocalStorage";
+import CommentSection from "./CommentSection";
 
 function Post({
   userImageUrl,
@@ -21,7 +22,7 @@ function Post({
   PostDescription,
 }) {
   const [currentImage, setCurrentImage] = useState(0);
-
+  const [showModal, setShowModal] = useState(false);
   const [jwt, setJwt] = useLocalState("", "token");
 
   const [Images, setImages] = useState([]);
@@ -153,12 +154,19 @@ function Post({
                 alignItems: "center",
                 justifyContent: "center",
                 fontSize: "24px",
-              }}>
-              <MdComment style={{ marginRight: "8px", color:"white", }} />
+              }}
+              onClick={() => setShowModal(!showModal)}>
+              <MdComment style={{ marginRight: "8px" }} />
               comments
             </button>
           </div>
         </div>
+        {showModal && (
+          <CommentSection
+            PostId={PostId}
+            showModal={showModal}
+            setShowModal={setShowModal}></CommentSection>
+        )}
       </article>
     </div>
   );

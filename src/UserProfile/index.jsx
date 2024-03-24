@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Container,
   Row,
@@ -27,6 +27,9 @@ import Followings from "./Followings";
 import Post from "./Post";
 import Posts from "./ProfilePosts";
 import ProfilePosts from "./ProfilePosts";
+import { Rating } from "@material-tailwind/react";
+import UserContext from "../context/UserContext";
+import RatingStatic from "./RatingStatic";
 function ProfilePage() {
   const navigate = useNavigate();
   const [jwt, setJwt] = useLocalState("", "token");
@@ -35,8 +38,9 @@ function ProfilePage() {
   const [imageUrl2, setImageUrl2] = useState(null);
   const [activeDiv, setActiveDiv] = useState("Posts");
   const [showModal, setShowModal] = useState(false);
-
+  const [rating, setRating] = useState(0);
   const [followers, setFollowers] = useState([]);
+  const { user: LoggedUser } = useContext(UserContext);
   const userData = {
     email: "ayoub@gmail.com",
     firstname: "ayoub",
@@ -80,6 +84,18 @@ function ProfilePage() {
         console.log(err);
       });
 
+    fetchService(
+      `http://localhost:8080/api/v1/getUserRate/${LoggedUser.id}`,
+      jwt,
+      "GET"
+    )
+      .then((data) => {
+        setRating(data.rating);
+        console.log(LoggedUser);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     // Reset the body color when the component unmounts
     return () => {
       document.body.style.backgroundColor = null;
@@ -113,11 +129,47 @@ function ProfilePage() {
                     <Card.Text className="name">
                       {user.firstname} {user.lastname}
                     </Card.Text>
-                    <Card.Text
-                      className="followersNumber"
-                      style={{ color: "#b0b3b8" }}>
-                      {followers.length} followers
-                    </Card.Text>
+                    {rating === 0 && (
+                      <Rating
+                        value={0}
+                        readonly
+                        className="scale-75 -translate-x-4 text-amber-500"
+                      />
+                    )}
+                    {rating === 1 && (
+                      <Rating
+                        value={1}
+                        readonly
+                        className="scale-75 -translate-x-4 text-amber-500"
+                      />
+                    )}
+                    {rating === 2 && (
+                      <Rating
+                        value={2}
+                        readonly
+                        className="scale-75 -translate-x-4 text-amber-500"
+                      />
+                    )}
+                    {rating === 3 && (
+                      <Rating
+                        value={3}
+                        className="scale-75 -translate-x-4 text-amber-500"
+                      />
+                    )}
+                    {rating === 4 && (
+                      <Rating
+                        value={4}
+                        readonly
+                        className="scale-75 -translate-x-4 text-amber-500"
+                      />
+                    )}
+                    {rating === 5 && (
+                      <Rating
+                        value={5}
+                        readonly
+                        className="scale-75 -translate-x-4 text-amber-500"
+                      />
+                    )}
                   </div>
                   <div>
                     <Button
@@ -151,7 +203,9 @@ function ProfilePage() {
               <Button
                 variant="secondary"
                 className="profile_btn"
-                onClick={() => setActiveDiv("About")}>
+                onClick={() => {
+                  setActiveDiv("About");
+                }}>
                 <FaUser />
                 About
               </Button>

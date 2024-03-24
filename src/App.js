@@ -6,23 +6,56 @@ import SignUp from "./SignUp";
 import ProfilePage from "./UserProfile";
 import AddAnnonce from "./Annonce/addAnnonce";
 import PrivateRoute from "./privateRoute";
+import CommentSection from "./UserProfile/CommentSection";
+import UserContextProvider from "./context/UserContextProvider";
 import Hpage from "./Home/homePage";
 
 function App() {
-
-
   return (
-    <Routes>
-  <Route path="/login" element={<><Login></Login></>} />
-  <Route path="/signup" element={<><SignUp></SignUp></>} />
-  <Route path="/profile" element={<PrivateRoute><ProfilePage></ProfilePage></PrivateRoute>} />
-  <Route path="/AddAnnonce" element={<PrivateRoute><AddAnnonce></AddAnnonce></PrivateRoute>} />
-  <Route path="/home" element={<PrivateRoute><Hpage></Hpage></PrivateRoute>} />
-
-       
-      
-  </Routes>
-
+    <UserContextProvider>
+      <Routes>
+        <Route
+          path="/login"
+          element={
+            <>
+              <Login></Login>
+            </>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <>
+              <SignUp></SignUp>
+            </>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <ProfilePage></ProfilePage>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/AddAnnonce"
+          element={
+            <PrivateRoute>
+              <AddAnnonce></AddAnnonce>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/home"
+          element={
+            <PrivateRoute>
+              <Hpage></Hpage>
+            </PrivateRoute>
+          }
+        />
+      </Routes>
+    </UserContextProvider>
   );
 }
 
