@@ -117,7 +117,7 @@ const connection = useConnection();
             setIsloading(true);
             searchTimer = setTimeout(() => {
           SearchUser(event.target.value);
-            }, 2000);
+            }, 1000);
           }else{
             setSearchedUsers([]);
             SetisSearching(false);

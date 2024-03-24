@@ -420,21 +420,8 @@ export default function SignUp() {
                 </Form.Group>
               </Col>
             </Row>
-            <Row className="d-flex justify-content-center">
-              <Col md="8">
-                <Form.Group controlId="formFile" className="mb-3">
-                  <Form.Label>Profile Image</Form.Label>
-                  <Form.Control
-                    type="file"
-                    onChange={handleFileChange}
-                    isInvalid={!!errors.image}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.image}
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </Col>
-            </Row>
+
+            
           </>
         )}
         
