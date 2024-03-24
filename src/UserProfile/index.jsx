@@ -4,27 +4,17 @@ import {
   Row,
   Col,
   Card,
-  CardImg,
   CardBody,
-  CardText,
-  Button,
-  Image,
-  ListGroup,
-  Form,
-  Modal,
+  Button
 } from "react-bootstrap";
 import "../UserProfile/ProfileInfo.css";
 import { NavBar } from "../NavBars/Nav";
 import SideBar from "../NavBars/Side"
 import { HiMiniIdentification } from "react-icons/hi2";
 import {
-  FaAddressBook,
-  FaEnvelope,
   FaHeart,
-  FaPhone,
   FaUser,
   FaUserFriends,
-  FaUsers,
 } from "react-icons/fa";
 import { GiPositionMarker } from "react-icons/gi";
 import { MdEmail, MdFeed, MdPhone } from "react-icons/md";
@@ -56,7 +46,6 @@ function ProfilePage() {
     adress: "Fes Maroc",
     cne: "N130090844",
     filiere: "INFO",
-    password: "ayoub2010",
     niveau: "FirstYear",
     followersNumber: 100,
   };
@@ -116,7 +105,7 @@ function ProfilePage() {
                   src={imageUrl}
                   className="rounded-circle profile-pic"
                 />
-              </div>
+                </div>
 
               <div>
                 <div className="general_info p-3 d-flex flex-column justify-content-center align-items-center flex-md-row align-items-md-center justify-content-md-around ">

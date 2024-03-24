@@ -18,6 +18,9 @@ function App() {
   <Route path="/profile" element={<PrivateRoute><ProfilePage></ProfilePage></PrivateRoute>} />
   <Route path="/AddAnnonce" element={<PrivateRoute><AddAnnonce></AddAnnonce></PrivateRoute>} />
   <Route path="/home" element={<PrivateRoute><Hpage></Hpage></PrivateRoute>} />
+
+       
+      
   </Routes>
 
   );
