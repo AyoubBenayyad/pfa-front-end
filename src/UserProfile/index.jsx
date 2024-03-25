@@ -15,7 +15,7 @@ import {
 } from "react-bootstrap";
 import "../UserProfile/ProfileInfo.css";
 import { NavBar } from "../NavBars/Nav";
-import SideBar from "../NavBars/Side"
+import SideBar from "../NavBars/Side";
 import { HiMiniIdentification } from "react-icons/hi2";
 import {
   FaAddressBook,
@@ -115,8 +115,8 @@ function ProfilePage() {
 
   return (
     <>
-    <NavBar/>
-    <SideBar/>
+      <NavBar />
+      <SideBar />
       <Container>
         <Row className="d-flex justify-content-center align-items-center mt-5">
           <Col md={10} style={{ padding: "0px" }}>
