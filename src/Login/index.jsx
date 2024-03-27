@@ -64,7 +64,7 @@ export default function Login() {
           setShowError(false);
 
           setTimeout(() => setShowSucess(false), 2000);
-          setTimeout(() => navigate("/profile"), 1000);
+          setTimeout(() => navigate("/home"), 1000);
           setJwt(token.token);
         })
         .catch((err) => {

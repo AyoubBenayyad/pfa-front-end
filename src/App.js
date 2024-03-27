@@ -8,9 +8,8 @@ import AddAnnonce from "./Annonce/addAnnonce";
 import PrivateRoute from "./privateRoute";
 import CommentSection from "./UserProfile/CommentSection";
 import UserContextProvider from "./context/UserContextProvider";
-import { NavBar } from "./NavBars/Nav";
-import SideBar from "./NavBars/Side";
 import Hpage from "./Home/homePage";
+import UsersProfilePage from "./UsersProfile/UsersProfilePage";
 
 function App() {
   return (
@@ -56,6 +55,15 @@ function App() {
             </PrivateRoute>
           }
         />
+
+        <Route
+          key={window.location.pathname}
+          path="/UsersProfile/:userId"
+          element={
+            <PrivateRoute>
+              <UsersProfilePage></UsersProfilePage>
+            </PrivateRoute>
+          }></Route>
       </Routes>
     </UserContextProvider>
   );

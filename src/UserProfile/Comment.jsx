@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getTimeDifference } from "../Util/getTimeDifference";
 import { useLocalState } from "../Util/useLocalStorage";
+import { Link } from "react-router-dom";
 
 function Comment({
   commentImg,
@@ -52,7 +53,12 @@ function Comment({
               src={userImage}
               alt="Michael Gough"
             />
-            {commentUsername}
+            <Link
+              to={`/UsersProfile/${userId}`}
+              style={{ textDecoration: "none", color: "whitesmoke" }}
+              className="text-left m-0">
+              {commentUsername}
+            </Link>
           </p>
           <p className="text-sm text-gray-400">
             <time pubdate dateTime="2022-02-08" title="February 8th, 2022">

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
+import { useLocalState } from "../Util/useLocalStorage";
+import useFileHandler from "../Util/useFileHandler";
 
 export default function EditProfile({
   showModal,
@@ -7,7 +9,11 @@ export default function EditProfile({
   userDetails,
   setUserDetails,
 }) {
+  
+  const { selectedFile, base64File, handleFileChange } = useFileHandler();
+
   const [user, setUser] = useState(userDetails);
+  const [jwt,setJwt] = useLocalState("","token");
   const [errors, setErrors] = useState({});
   const EmailValidation = (email) => {
     return String(email)
@@ -26,11 +32,11 @@ export default function EditProfile({
   useEffect(() => {
     setUser(userDetails);
   }, [userDetails]);
+
   const validate = () => {
     let errors = {};
 
     if (!EmailValidation(user.email)) errors.email = "Email format isnt Valid";
-    if (user.password === "") errors.password = "Password is Required";
     if (user.email === "") {
       errors.email = "Email is Required";
     }
@@ -40,9 +46,6 @@ export default function EditProfile({
     }
     if (user.lastname === "") {
       errors.lastname = "lastname is Required";
-    }
-    if (user.cne === "") {
-      errors.cne = "cne is Required";
     }
     if (!validatePhoneNumber(user.telephone)) {
       errors.telephone = "Phone number format is Invalid";
@@ -70,8 +73,42 @@ export default function EditProfile({
   const handleSubmit = (event) => {
     event.preventDefault();
     if (validate()) {
-      setUserDetails(user);
-      setShowModal(false);
+      
+       const requestOptions = {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",      
+          Authorization: `Bearer ${jwt}`, 
+      },
+        body: JSON.stringify({
+          firstname : user.firstname,
+          lastname : user.lastname,
+          email : user.email,
+          telephone : user.telephone,
+          adress : user.adress,
+          bio : user.bio,
+          niveau : user.niveau,
+          filiere : user.filiere,
+          imgUrl : base64File
+        }),
+      };
+      fetch("http://localhost:8080/api/v1/profile/editProfile", requestOptions)
+        .then((response) => {
+          if (response.ok) {
+            setUserDetails(user);
+            setShowModal(false);
+            return response.json();
+          } else {
+            return response.text().then((text) => {
+              throw new Error(text);
+            });
+          }
+        })
+        .then((data) => {
+        })
+        .catch((err) => {
+        });
+
     }
   };
   const handleChange = (e) => {
@@ -84,11 +121,9 @@ export default function EditProfile({
     <Modal
       show={showModal}
       onHide={() => {
-        if (validate()) {
           setShowModal(false);
-          setUser(userDetails);
         }
-      }}>
+      }>
       <Modal.Header closeButton>
         <Modal.Title>Edit Profile</Modal.Title>
       </Modal.Header>
@@ -109,20 +144,7 @@ export default function EditProfile({
                 {errors.email}
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={user.password ? user.password : ""}
-                isInvalid={!!errors.password}
-                onChange={handleChange}
-              />
-              <Form.Control.Feedback type="invalid">
-                {errors.password}
-              </Form.Control.Feedback>
-            </Form.Group>
+            
           </Col>
         </Row>
         <Row className="d-flex justify-content-center">
@@ -160,24 +182,6 @@ export default function EditProfile({
               </Form.Group>
             </Col>
           </>
-        </Row>
-        <Row className="d-flex justify-content-center">
-          <Col md="6" lg="8">
-            <Form.Group className="mb-4" controlId="step3">
-              <Form.Label>CNE</Form.Label>
-              <Form.Control
-                type="text"
-                name="cne"
-                placeholder="CNE"
-                value={user.cne ? user.cne : ""}
-                isInvalid={!!errors.cne}
-                onChange={handleChange}
-              />
-              <Form.Control.Feedback type="invalid">
-                {errors.cne}
-              </Form.Control.Feedback>
-            </Form.Group>
-          </Col>
         </Row>
         <Row className="d-flex justify-content-center">
           <>
@@ -276,6 +280,20 @@ export default function EditProfile({
               </Form.Control.Feedback>
             </Form.Group>
           </Col>
+          
+          <Row className="d-flex justify-content-center">
+              <Col md="8">
+                <Form.Group controlId="formFile" className="mb-3">
+                  <Form.Label>Change profile image</Form.Label>
+                  <Form.Control
+                    type="file"
+                    onChange={handleFileChange}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+         
+         
         </Row>
         <Button variant="primary" type="button" onClick={handleSubmit}>
           Save Changes

@@ -112,18 +112,20 @@ export const NavBar = () => {
       clearTimeout(searchTimer);
     }
 
-    if (event.target.value.length > 0) {
-      SetisSearching(true);
-      setIsloading(true);
-      searchTimer = setTimeout(() => {
-        SearchUser(event.target.value);
-      }, 2000);
-    } else {
-      setSearchedUsers([]);
-      SetisSearching(false);
+          if(event.target.value.length >0){
+            SetisSearching(true);
+            setIsloading(true);
+            searchTimer = setTimeout(() => {
+          SearchUser(event.target.value);
+            }, 1000);
+          }else{
+            setSearchedUsers([]);
+            SetisSearching(false);
+          }
     }
-  };
+      
 
+  
   useEffect(() => {
     let isMounted = true;
 
