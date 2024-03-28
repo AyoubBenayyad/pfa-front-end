@@ -6,9 +6,9 @@ import SignUp from "./SignUp";
 import ProfilePage from "./UserProfile";
 import AddAnnonce from "./Annonce/addAnnonce";
 import PrivateRoute from "./privateRoute";
-import CommentSection from "./UserProfile/CommentSection";
 import UserContextProvider from "./context/UserContextProvider";
 import Hpage from "./Home/homePage";
+import Dashboard from "./Dashboard/Layout";
 
 function App() {
   return (
@@ -54,6 +54,15 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/dash"
+          element={
+            <>
+              <Dashboard></Dashboard>
+            </>
+          }
+        />
+       
       </Routes>
     </UserContextProvider>
   );

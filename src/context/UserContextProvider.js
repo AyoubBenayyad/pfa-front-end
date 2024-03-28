@@ -43,7 +43,6 @@ const UserContextProvider = ({ children }) => {
             });
         })
         .catch((err) => {
-          navigate("/login");
         });
     }
   }, [jwt]);
