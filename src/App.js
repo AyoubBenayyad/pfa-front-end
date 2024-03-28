@@ -6,10 +6,13 @@ import SignUp from "./SignUp";
 import ProfilePage from "./UserProfile";
 import AddAnnonce from "./Annonce/addAnnonce";
 import PrivateRoute from "./privateRoute";
-import CommentSection from "./UserProfile/CommentSection";
 import UserContextProvider from "./context/UserContextProvider";
 import Hpage from "./Home/homePage";
+
+import Dashboard from "./Dashboard/Layout";
+
 import UsersProfilePage from "./UsersProfile/UsersProfilePage";
+
 
 function App() {
   return (
@@ -56,6 +59,14 @@ function App() {
           }
         />
 
+        <Route
+          path="/dash"
+          element={
+            <>
+              <Dashboard></Dashboard>
+            </>
+          }
+        />
         <Route
           key={window.location.pathname}
           path="/UsersProfile/:userId"
