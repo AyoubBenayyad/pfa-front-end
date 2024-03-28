@@ -8,10 +8,9 @@ import AddAnnonce from "./Annonce/addAnnonce";
 import PrivateRoute from "./privateRoute";
 import UserContextProvider from "./context/UserContextProvider";
 import Hpage from "./Home/homePage";
-
 import Dashboard from "./Dashboard/Layout";
-
 import UsersProfilePage from "./UsersProfile/UsersProfilePage";
+import PrivateAuth from "./Util/PrivateAuth";
 
 
 function App() {
@@ -29,16 +28,16 @@ function App() {
         <Route
           path="/signup"
           element={
-            <>
-              <SignUp></SignUp>
-            </>
-          }
+                <SignUp/>
+                      }
         />
         <Route
           path="/profile"
           element={
             <PrivateRoute>
-              <ProfilePage></ProfilePage>
+              <PrivateAuth authority={"USER"}>
+                  <ProfilePage/>
+              </PrivateAuth>
             </PrivateRoute>
           }
         />
@@ -46,7 +45,9 @@ function App() {
           path="/AddAnnonce"
           element={
             <PrivateRoute>
-              <AddAnnonce></AddAnnonce>
+              <PrivateAuth authority={"USER"}>
+                  <AddAnnonce/>
+              </PrivateAuth>
             </PrivateRoute>
           }
         />
@@ -54,19 +55,24 @@ function App() {
           path="/home"
           element={
             <PrivateRoute>
-              <Hpage></Hpage>
+              <PrivateAuth authority={"USER"}>
+                  <Hpage/>
+              </PrivateAuth>
             </PrivateRoute>
           }
         />
-
-        <Route
-          path="/dash"
+         <Route 
+          path="/dashboard" 
           element={
-            <>
-              <Dashboard></Dashboard>
-            </>
+            <PrivateRoute>
+              <PrivateAuth authority={"ADMIN"}>
+                  <Dashboard/>
+              </PrivateAuth>
+            </PrivateRoute>
           }
-        />
+           />
+
+        
         <Route
           key={window.location.pathname}
           path="/UsersProfile/:userId"
@@ -75,6 +81,8 @@ function App() {
               <UsersProfilePage></UsersProfilePage>
             </PrivateRoute>
           }></Route>
+
+         
       </Routes>
     </UserContextProvider>
   );
