@@ -5,8 +5,11 @@ import { Alert,  Col, Row,Button } from "react-bootstrap";
 import { useLocalState } from "../Util/useLocalStorage";
 import fetchService from "../Services/fetchService";
 import Post from "../UserProfile/Post";
+import { useNavigate } from "react-router-dom";
 
 export default function Hpage(){
+  
+    const navigate = useNavigate();
     const [jwt,setJwt] = useLocalState("","token");
     const [error, setError] = useState("");
     const [showError, setShowError] = useState(false);
@@ -49,10 +52,10 @@ export default function Hpage(){
 
   
     const followUser = (id) => {
-      
-  setLoadingFollow(true);
-  setProfils([]);
-  followRequest(id);
+          
+      setLoadingFollow(true);
+      setProfils([]);
+      followRequest(id);
     };
     //filter logic--------------------------------------------------------------------------------------
     const [filter,setFilter] = useState({
@@ -119,10 +122,6 @@ if(hasMore){
   setIsLoading(false);
 }
 };
-
-  
- 
-
 
   useEffect(() => {
     const handleScroll = () => {
@@ -444,8 +443,9 @@ if(hasMore){
                             <div className="flex items-center ml-4" key={profil.id}>
                                 <img
                                 alt=""
-                                className="w-10 h-10 border rounded-full dark:bg-gray-500 dark:border-gray-700"
+                                className="w-10 h-10 cursor-pointer border rounded-full dark:bg-gray-500 dark:border-gray-700"
                                 src={profil.imageUrl}
+                                onClick={()=>{navigate(`/UsersProfile/${profil.id}`)}}
                                 />
                                 <div className="ml-2">
                                   <h3 className="text-lg -mb-1">{profil.fullName}</h3>

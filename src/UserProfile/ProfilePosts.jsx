@@ -36,7 +36,10 @@ export default function ProfilePosts({ profileImg }) {
             userImageUrl={profileImg}
             PostDomains={post.postDomains}
             PostTitle={post.postTitle}
-            PostDescription={post.postDescription}></Post>
+            PostDescription={post.postDescription}
+            City={post.city}
+            Type={post.type}
+            ></Post>
         ))
       )}
     </div>

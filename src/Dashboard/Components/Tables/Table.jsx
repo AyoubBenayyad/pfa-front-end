@@ -3,6 +3,8 @@ import Pagination from '../Pagination'
 import { useLocalState } from '../../../Util/useLocalStorage';
 import fetchService from '../../../Services/fetchService';
 import Modal from './Modal';
+import { jwtDecode } from 'jwt-decode';
+
 export default function UsersTable() {
 
     const [isOpen, setIsOpen] = useState(false);
@@ -17,6 +19,7 @@ export default function UsersTable() {
     const [isLoading,setisLoading] = useState(true);
     const[modal,setModal] = useState({});
 
+    
 
     useEffect(()=>{
         fetchService("http://localhost:8080/api/v1/admin/maxUsers",jwt,"GET")
