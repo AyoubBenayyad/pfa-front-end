@@ -8,7 +8,11 @@ import AddAnnonce from "./Annonce/addAnnonce";
 import PrivateRoute from "./privateRoute";
 import UserContextProvider from "./context/UserContextProvider";
 import Hpage from "./Home/homePage";
+
 import Dashboard from "./Dashboard/Layout";
+
+import UsersProfilePage from "./UsersProfile/UsersProfilePage";
+
 
 function App() {
   return (
@@ -54,6 +58,7 @@ function App() {
             </PrivateRoute>
           }
         />
+
         <Route
           path="/dash"
           element={
@@ -62,7 +67,14 @@ function App() {
             </>
           }
         />
-       
+        <Route
+          key={window.location.pathname}
+          path="/UsersProfile/:userId"
+          element={
+            <PrivateRoute>
+              <UsersProfilePage></UsersProfilePage>
+            </PrivateRoute>
+          }></Route>
       </Routes>
     </UserContextProvider>
   );

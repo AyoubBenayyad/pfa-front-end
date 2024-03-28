@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Image, Row } from "react-bootstrap";
 import fetchService from "../Services/fetchService";
+import { Link } from "react-router-dom";
 
 export default function Following({ jwt, name, id, image }) {
   const [imageUrl, setImageUrl] = useState(null);
@@ -69,20 +70,16 @@ export default function Following({ jwt, name, id, image }) {
           <Col
             className="d-flex flex-column align-items-start"
             style={{ marginLeft: "20px" }}>
-            <p
-              className="text-left m-0"
-              style={{ fontWeight: "bold", marginBottom: "5px" }}>
-              {name}
-            </p>
-            <p
-              className="text-left m-0"
-              style={{
-                fontSize: " 13px",
-                fontWeight: "600",
-                color: "#b0b3b8",
-              }}>
-              33 mutual friends
-            </p>
+            <Link
+              to={`/UsersProfile/${id}`}
+              style={{ textDecoration: "none", color: "whitesmoke" }}
+              className="text-left m-0">
+              <p
+                className="text-left m-0 hover:underline"
+                style={{ fontWeight: "bold", marginBottom: "5px" }}>
+                {name}
+              </p>{" "}
+            </Link>
           </Col>
         </Col>
 
