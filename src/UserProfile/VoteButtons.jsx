@@ -15,7 +15,6 @@ export default function VoteButtons({ PostId }) {
           jwt,
           "GET"
         ).then((data) => {
-          console.log(data.type);
           if (data.type === "NoVote") setUserVote(null);
           if (data.type === "UpVote") setUserVote("UpVote");
           if (data.type === "DownVote") setUserVote("DownVote");

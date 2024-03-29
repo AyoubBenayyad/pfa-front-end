@@ -27,44 +27,56 @@ export default function Donut() {
 
         })
     },[]);
-
     const state = {
-        options: {
+      options: {
           labels: ['Offers', 'Questions'],
           dataLabels: {
-            enabled: true,
-            formatter: function (val, opts) {
-              return opts.w.globals.series[opts.seriesIndex];
-            },
-            style: {
-              fontSize: '12px',
-              colors: ['#ffffff']
-            }
+              enabled: true,
+              formatter: function (val, opts) {
+                  return opts.w.globals.series[opts.seriesIndex];
+              },
+              style: {
+                  fontSize: '12px',
+                  colors: ['#ffffff']
+              }
           },
-          colors: ['#60A3D9', '#003B73'], 
+          colors: ['#60A3D9', '#003B73'],
           legend: {
-            labels: {
-                style: {
-                    fontSize: '20px' // Adjust font size for series names
-                    // Add more font properties as needed
-                }
-            }
+              labels: {
+                  style: {
+                      fontSize: '20px'
+                  }
+              }
           },
-        },
-        series: [offre, question]
-      };
-      
-      return (
-        <>
-        <h3 className='text-2xl text-gray-800  font-semibold pl-2 mb-14'>Offre and question distribution</h3>
-        <Chart 
-          options={state.options}
-          series={state.series}
-          type="pie"
-          width="480"
-          height={600}
-        />
-        </>
-      );
+          animations: {
+              enabled: true, // Enable animations
+              easing: 'easeinout', // Specify easing function
+              speed: 1000, // Specify animation speed in milliseconds
+              animateGradually: {
+                  enabled: true,
+                  delay: 150 // Specify delay between series animation
+              },
+              dynamicAnimation: {
+                  enabled: true,
+                  speed: 350 // Specify dynamic animation speed
+              }
+          }
+      },
+      series: [offre, question]
+  };
+  
+  return (
+      <>
+          <h3 className='text-2xl text-gray-800  font-semibold pl-2 mb-14'>Offre and question distribution</h3>
+          <Chart
+              options={state.options}
+              series={state.series}
+              type="pie"
+              width="480"
+              height={600}
+          />
+      </>
+  );
+  
       
 }

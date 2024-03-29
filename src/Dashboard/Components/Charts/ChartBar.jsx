@@ -29,69 +29,82 @@ export default function ChartBar() {
         })
     },[]);
 
-
     const state = {
-        options: {
+      options: {
           colors: ['#5e8fa1', '#59a667'],
           chart: {
-            id: "basic-bar"
+              id: "basic-bar"
           },
           xaxis: {
-            categories: [ "Casablanca",
-            "Fes",
-            "Rabat",
-            "Tanger",
-            "Meknes",
-            "Tetouan"],
-            labels:{
-              style: {
-                fontSize: '16px', 
-                fontFamily: 'Arial, sans-serif', 
-                fontWeight: 400 
-            }
-            }
+              categories: [
+                  "Casablanca",
+                  "Fes",
+                  "Rabat",
+                  "Tanger",
+                  "Meknes",
+                  "Tetouan"
+              ],
+              labels: {
+                  style: {
+                      fontSize: '16px',
+                      fontFamily: 'Arial, sans-serif',
+                      fontWeight: 400
+                  }
+              }
           },
-          
-        },
-       
-        yaxis: {
-          labels: {
-              style: {
-                  fontSize: '19px', 
-                  fontFamily: 'Arial, sans-serif', 
-                  fontWeight: 400 
+          yaxis: {
+              labels: {
+                  style: {
+                      fontSize: '19px',
+                      fontFamily: 'Arial, sans-serif',
+                      fontWeight: 400
+                  }
+              }
+          },
+          legend: {
+              labels: {
+                  style: {
+                      fontSize: '20px' // Adjust font size for series names
+                      // Add more font properties as needed
+                  }
+              }
+          },
+          animations: {
+              enabled: true, // Enable animations
+              easing: 'easeinout', // Specify easing function
+              speed: 1000, // Specify animation speed in milliseconds
+              animateGradually: {
+                  enabled: true,
+                  delay: 150 // Specify delay between series animation
+              },
+              dynamicAnimation: {
+                  enabled: true,
+                  speed: 350 // Specify dynamic animation speed
               }
           }
       },
-      legend: {
-        labels: {
-            style: {
-                fontSize: '20px' // Adjust font size for series names
-                // Add more font properties as needed
-            }
-        }
-      },
-        series: [
+      series: [
           {
-            name: "Jobs",
-            data: job
+              name: "Jobs",
+              data: job
           },
           {
-            name: "Internships",
-            data: intern
+              name: "Internships",
+              data: intern
           }
-        ]
-      };
-
+      ]
+  };
+  
   return (
-    <>
-    <h3 className='text-2xl text-gray-800  font-semibold pl-2 mb-14'>JOBS AND INTERNSHIPS PER CITY</h3>
-<Chart
+      <>
+          <h3 className='text-2xl text-gray-800  font-semibold pl-2 mb-14'>JOBS AND INTERNSHIPS PER CITY</h3>
+          <Chart
               options={state.options}
               series={state.series}
               type="bar"
               height={380}
-            />
-    </>
+          />
+      </>
   )
+  
 }
