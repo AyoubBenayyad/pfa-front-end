@@ -5,6 +5,7 @@ import {
 import VoteButtons from "./VoteButtons";
 import { useLocalState } from "../Util/useLocalStorage";
 import CommentSection from "./CommentSection";
+import { useNavigate } from "react-router-dom";
 
 function Post({
   userImageUrl,
@@ -16,8 +17,11 @@ function Post({
   PostTitle,
   PostDescription,
   City,
-  Type
+  Type,
+  UserId
 }) {
+  
+  const navigate = useNavigate();
   const [currentImage, setCurrentImage] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [jwt, setJwt] = useLocalState("", "token");
@@ -25,6 +29,10 @@ function Post({
   const [Images, setImages] = useState([]);
   const[userImage,setUserImage] = useState(null);
 
+
+  const empty = ()=>{
+
+  }
   
 
   useEffect(() => {
@@ -91,7 +99,8 @@ function Post({
         <div className="flex items-center justify-between p-3">
           <div className="flex items-center space-x-2">
             <img
-              className="object-cover w-12 h-12 rounded-full"
+            onClick={()=>{(UserId && UserId!=="") ? navigate(`/UsersProfile/${UserId}`) : empty() }}
+              className="object-cover cursor-pointer w-12 h-12 rounded-full"
               src={userImage}
               alt=""
             />

@@ -19,5 +19,5 @@ export default function PrivateAuth({authority,children}) {
         return false;
     }
 
-  return   AuthorityCheck(authority) ? (children) :  (<Navigate to="/login"/>);
+  return   AuthorityCheck(authority) ? (children) :  authority==="USER" ? (<Navigate to="/dashboard"/>) : (<Navigate to="/home"/>);
 }

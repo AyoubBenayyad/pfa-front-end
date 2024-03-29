@@ -31,7 +31,7 @@ export default function ChartFiliere() {
 
     const state = {
         options: {
-          colors: ['#5885AF', '#75E6DA'],
+          colors: ['#5885AF', '#874484'],
           chart: {
             id: "basic-bar"
           },

@@ -41,7 +41,7 @@ export default function TableUsers() {
             return response.json();
           })
           .then((data) => {
-            setUsers(data.reverse());
+            setUsers(data);
             const requestOptions = {
               method: "GET",
               headers: {
