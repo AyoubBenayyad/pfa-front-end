@@ -11,6 +11,7 @@ import Hpage from "./Home/homePage";
 import Dashboard from "./Dashboard/Layout";
 import UsersProfilePage from "./UsersProfile/UsersProfilePage";
 import PrivateAuth from "./Util/PrivateAuth";
+import Bookmarks from "./Bookmark/Bookmarks";
 
 
 function App() {
@@ -67,6 +68,16 @@ function App() {
             <PrivateRoute>
               <PrivateAuth authority={"ADMIN"}>
                   <Dashboard/>
+              </PrivateAuth>
+            </PrivateRoute>
+          }
+           />
+        <Route 
+          path="/bookmark" 
+          element={
+            <PrivateRoute>
+              <PrivateAuth authority={"USER"}>
+                  <Bookmarks/>
               </PrivateAuth>
             </PrivateRoute>
           }

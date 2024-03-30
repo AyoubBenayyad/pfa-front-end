@@ -9,12 +9,13 @@ export default function UsersProfilePosts({ profileImg, userId }) {
 
   useEffect(() => {
     fetchService(
-      `http://localhost:8080/api/v1/profile/ProfilePosts/${userId}`,
+      `http://localhost:8080/api/v1/profile/OthersProfilePosts/${userId}`,
       jwt,
       "GET"
     )
       .then((data) => {
         setPosts(data);
+        console.log(data)
       })
       .catch((err) => {
         alert(err);
@@ -39,6 +40,7 @@ export default function UsersProfilePosts({ profileImg, userId }) {
             PostDescription={post.postDescription}
             City={post.city}
             Type={post.type}
+            Bookmarked={post.bookmarked}
             ></Post>
         ))
       )}

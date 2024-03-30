@@ -8,7 +8,7 @@ import Post from "../UserProfile/Post";
 import { useNavigate } from "react-router-dom";
 
 export default function Hpage(){
-  
+
     const navigate = useNavigate();
     const [jwt,setJwt] = useLocalState("","token");
     const [error, setError] = useState("");
@@ -50,7 +50,6 @@ export default function Hpage(){
       }
     }
 
-  
     const followUser = (id) => {
           
       setLoadingFollow(true);
@@ -356,7 +355,6 @@ if(hasMore){
               <div className="flex flex-col gap-4">
                 {posts.length > 0  ? (
                   posts.map((post,index) => (
-                    
                     <Post
                       key={post.id}
                       PostId={post.id}
@@ -370,6 +368,7 @@ if(hasMore){
                       City={post.city}
                       Type={post.type}
                       UserId={post.userInfos.id}
+                      Bookmarked={post.bookmarked}
                       >
                       </Post> 
                     
@@ -444,7 +443,7 @@ if(hasMore){
                     <div className="bg-white px-2 pt-2 pb-2 rounded">
 
                     {!loadingFollow && profils.map((profil, index) => (
-                            <div className="flex items-center ml-4 gap-10" key={profil.id}>
+                            <div className="flex items-center ml-4 gap-1" key={profil.id}>
                                 <img
                                 alt=""
                                 className="w-10 h-10 cursor-pointer border rounded-full dark:bg-gray-500 dark:border-gray-700"
@@ -455,7 +454,7 @@ if(hasMore){
                                   <h3 className="text-lg -mb-1">{profil.fullName}</h3>
                                   <h5 className="text-sm pl-1 ">{profil.email}</h5>
                                 </div>
-                                <div className="flex">
+                                <div className="flex pl-2 pb-2">
                                       <p className="ms-0 text-sm font-medium text-gray-700 ">
                                         {profil.rating}
                                       </p>
