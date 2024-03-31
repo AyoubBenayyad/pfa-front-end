@@ -22,14 +22,11 @@ import EditProfile from "./EditProfile";
 import { useLocalState } from "../Util/useLocalStorage";
 import fetchService from "../Services/fetchService";
 import Followers from "./Followers";
-import { Navigate, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import Followings from "./Followings";
-import Post from "./Post";
-import Posts from "./ProfilePosts";
 import ProfilePosts from "./ProfilePosts";
 import { Rating } from "@material-tailwind/react";
 import UserContext from "../context/UserContext";
-import RatingStatic from "./RatingStatic";
 function ProfilePage() {
   const navigate = useNavigate();
   const [jwt, setJwt] = useLocalState("", "token");
@@ -56,11 +53,6 @@ function ProfilePage() {
 
   const [user, setUser] = useState(userData);
   useEffect(() => {
-    // Change the body color when the component mounts
-    document.body.style.backgroundColor = "#8EC5FC";
-    document.body.style.backgroundImage =
-      "linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%)";
-    // fetching user details
     fetchService("http://localhost:8080/api/v1/profile", jwt, "GET")
       .then((data) => {
         setUser(data);
@@ -93,16 +85,12 @@ function ProfilePage() {
         setRating(data);
       })
       .catch((err) => {
-        console.log(err);
       });
-    // Reset the body color when the component unmounts
-    return () => {
-      document.body.style.backgroundColor = null;
-    };
+    
   }, []);
 
   return (
-    <>
+    <div className="bg-slate-300">
       <NavBar />
       <SideBar />
       <Container>
@@ -328,7 +316,7 @@ function ProfilePage() {
           </Col>
         </Row>
       </Container>
-    </>
+    </div>
   );
 }
 
