@@ -69,17 +69,7 @@ export default function SignUp() {
     "Bloc chain"
   ];
 
-  useEffect(() => {
-    // Change the body color when the component mounts
-    document.body.style.backgroundColor = "#8EC5FC";
-    document.body.style.backgroundImage =
-      "linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%)";
 
-    // Reset the body color when the component unmounts
-    return () => {
-      document.body.style.backgroundColor = null;
-    };
-  }, []);
 
   useEffect(() => {
     if (error) {
@@ -220,7 +210,7 @@ export default function SignUp() {
     <>
     <NavBar/>
     <div
-      className="d-flex  justify-content-center align-items-center"
+      className="d-flex bg-slate-300  justify-content-center align-items-center"
       style={{ height: "100vh" }}>
       <Container className="bg-light p-4 rounded shadow  ">
         <Row className="d-flex justify-content-center mb-4">

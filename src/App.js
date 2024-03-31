@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import Login from "./Login";
+import Login, { LLogin } from "./Login/LLogin";
 import { Route, Routes } from "react-router-dom";
 import SignUp from "./SignUp";
 import ProfilePage from "./UserProfile";
@@ -12,6 +12,8 @@ import Dashboard from "./Dashboard/Layout";
 import UsersProfilePage from "./UsersProfile/UsersProfilePage";
 import PrivateAuth from "./Util/PrivateAuth";
 import Bookmarks from "./Bookmark/Bookmarks";
+import Layout from "./LandingPage/Layout";
+import { Signup } from "./SignUp/Signup";
 
 
 function App() {
@@ -22,14 +24,15 @@ function App() {
           path="/login"
           element={
             <>
-              <Login></Login>
+              <LLogin/>
             </>
           }
         />
+         
         <Route
           path="/signup"
           element={
-                <SignUp/>
+                <Signup/>
                       }
         />
         <Route
@@ -82,7 +85,12 @@ function App() {
             </PrivateRoute>
           }
            />
-
+          <Route 
+            path="/" 
+            element={
+                    <Layout/>
+            }
+           />
         
         <Route
           key={window.location.pathname}
