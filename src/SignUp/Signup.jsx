@@ -188,7 +188,6 @@ export const Signup = () => {
           } else {
             return response.text().then((text) => {
               // If it's not valid JSON, throw the text directly
-              console.log(text);
               throw new Error(text);
             });
           }
