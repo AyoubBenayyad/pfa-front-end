@@ -6,10 +6,11 @@ import SignUp from "./SignUp";
 import ProfilePage from "./UserProfile";
 import AddAnnonce from "./Annonce/addAnnonce";
 import PrivateRoute from "./privateRoute";
-import CommentSection from "./UserProfile/CommentSection";
 import UserContextProvider from "./context/UserContextProvider";
 import Hpage from "./Home/homePage";
 import UsersProfilePage from "./UsersProfile/UsersProfilePage";
+
+import WsConnection from "./ChatRoom/WsConnection";
 
 function App() {
   return (
@@ -64,6 +65,8 @@ function App() {
               <UsersProfilePage></UsersProfilePage>
             </PrivateRoute>
           }></Route>
+
+        <Route path="/chatMessages" element={<WsConnection></WsConnection>} />
       </Routes>
     </UserContextProvider>
   );
