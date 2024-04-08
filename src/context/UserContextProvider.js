@@ -43,7 +43,10 @@ const UserContextProvider = ({ children }) => {
             });
         })
         .catch((err) => {
+<<<<<<< HEAD
           //navigate("/login");
+=======
+>>>>>>> 8beefe00a2ba41123e42abbb1e5391b9dab6d937
         });
     }
   }, [jwt]);

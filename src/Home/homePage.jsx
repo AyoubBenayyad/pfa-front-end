@@ -5,8 +5,11 @@ import { Alert,  Col, Row,Button } from "react-bootstrap";
 import { useLocalState } from "../Util/useLocalStorage";
 import fetchService from "../Services/fetchService";
 import Post from "../UserProfile/Post";
+import { useNavigate } from "react-router-dom";
 
 export default function Hpage(){
+
+    const navigate = useNavigate();
     const [jwt,setJwt] = useLocalState("","token");
     const [error, setError] = useState("");
     const [showError, setShowError] = useState(false);
@@ -47,12 +50,11 @@ export default function Hpage(){
       }
     }
 
-  
     const followUser = (id) => {
-      
-  setLoadingFollow(true);
-  setProfils([]);
-  followRequest(id);
+          
+      setLoadingFollow(true);
+      setProfils([]);
+      followRequest(id);
     };
     //filter logic--------------------------------------------------------------------------------------
     const [filter,setFilter] = useState({
@@ -119,10 +121,6 @@ if(hasMore){
   setIsLoading(false);
 }
 };
-
-  
- 
-
 
   useEffect(() => {
     const handleScroll = () => {
@@ -357,7 +355,6 @@ if(hasMore){
               <div className="flex flex-col gap-4">
                 {posts.length > 0  ? (
                   posts.map((post,index) => (
-                    
                     <Post
                       key={post.id}
                       PostId={post.id}
@@ -367,7 +364,12 @@ if(hasMore){
                       userImageUrl={post.userInfos.image}
                       PostDomains={post.domains}
                       PostTitle={post.title}
-                      PostDescription={post.description}>
+                      PostDescription={post.description}
+                      City={post.city}
+                      Type={post.type}
+                      UserId={post.userInfos.id}
+                      Bookmarked={post.bookmarked}
+                      >
                       </Post> 
                     
                   ))
@@ -441,15 +443,29 @@ if(hasMore){
                     <div className="bg-white px-2 pt-2 pb-2 rounded">
 
                     {!loadingFollow && profils.map((profil, index) => (
-                            <div className="flex items-center ml-4" key={profil.id}>
+                            <div className="flex items-center ml-4 gap-1" key={profil.id}>
                                 <img
                                 alt=""
-                                className="w-10 h-10 border rounded-full dark:bg-gray-500 dark:border-gray-700"
+                                className="w-10 h-10 cursor-pointer border rounded-full dark:bg-gray-500 dark:border-gray-700"
                                 src={profil.imageUrl}
+                                onClick={()=>{navigate(`/UsersProfile/${profil.id}`)}}
                                 />
                                 <div className="ml-2">
                                   <h3 className="text-lg -mb-1">{profil.fullName}</h3>
                                   <h5 className="text-sm pl-1 ">{profil.email}</h5>
+                                </div>
+                                <div className="flex pl-2 pb-2">
+                                      <p className="ms-0 text-sm font-medium text-gray-700 ">
+                                        {profil.rating}
+                                      </p>
+                                      <svg
+                                        className="w-4 h-4 text-amber-500 me-1 pt-1"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor"
+                                        viewBox="0 0 22 20">
+                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                      </svg>
                                 </div>
                                 <div  className="fixed right-24 ml-32 max-w-14">
                                 <Button variant="primary" onClick={() => followUser(profil.id)}>
