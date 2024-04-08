@@ -42,12 +42,7 @@ const UserContextProvider = ({ children }) => {
               setUserImage(URL.createObjectURL(blob));
             });
         })
-        .catch((err) => {
-<<<<<<< HEAD
-          //navigate("/login");
-=======
->>>>>>> 8beefe00a2ba41123e42abbb1e5391b9dab6d937
-        });
+        .catch((err) => {});
     }
   }, [jwt]);
 
